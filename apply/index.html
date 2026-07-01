@@ -1139,6 +1139,8 @@
           addInput(FIELD_MAP.application_id, data.application_id || '');
           addInput(FIELD_MAP.locale, document.documentElement.lang || 'en');
           addInput(FIELD_MAP.website, data.website || '');
+          // Required when Google Forms Settings → "Collect email addresses" is ON
+          if (data.email) addInput('emailAddress', data.email);
 
           Object.entries(FIELD_MAP).forEach(([key, entryId]) => {
             if (['application_id', 'locale', 'website'].includes(key)) return;
@@ -1150,7 +1152,7 @@
 
           document.body.appendChild(form);
           form.submit();
-          form.remove();
+          setTimeout(() => form.remove(), 3000);
         });
       }
 
@@ -1181,7 +1183,7 @@
       });
 
       btnSubmit.addEventListener('click', async () => {
-        collectStep(currentStep);
+        for (let i = 0; i < TOTAL_STEPS; i++) collectStep(i);
         hideSubmitError();
         if (!validateStep(currentStep)) return;
 

@@ -972,6 +972,7 @@
           addInput(FIELD_MAP.application_id, data.application_id || '');
           addInput(FIELD_MAP.locale, document.documentElement.lang || 'uk');
           addInput(FIELD_MAP.website, data.website || '');
+          if (data.email) addInput('emailAddress', data.email);
           Object.entries(FIELD_MAP).forEach(([key, entryId]) => {
             if (['application_id', 'locale', 'website'].includes(key)) return;
             const val = data[key];
@@ -981,7 +982,7 @@
           });
           document.body.appendChild(form);
           form.submit();
-          form.remove();
+          setTimeout(() => form.remove(), 3000);
         });
       }
 
@@ -998,7 +999,7 @@
       btnBack.addEventListener('click', () => { collectStep(currentStep); currentStep--; showStep(currentStep); });
       btnNext.addEventListener('click', () => { collectStep(currentStep); if (!validateStep(currentStep)) return; currentStep++; showStep(currentStep); });
       btnSubmit.addEventListener('click', async () => {
-        collectStep(currentStep);
+        for (let i = 0; i < TOTAL_STEPS; i++) collectStep(i);
         hideSubmitError();
         if (!validateStep(currentStep)) return;
         if (!isFormConfigured()) {
