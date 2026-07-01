@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Подати заявку до Meta Qube — пройдіть покроковий майстер, щоб класифікувати ваш стартап та потрапити в чергу компіляції.">
+  <meta name="theme-color" content="#78C91E">
+  <title>Подати заявку до Meta Qube — Заявка засновника</title>
+
+  <link rel="alternate" hreflang="en" href="https://founders.meta-qube.com/apply/">
+  <link rel="alternate" hreflang="uk" href="https://founders.meta-qube.com/ua/apply/">
+  <link rel="alternate" hreflang="ru" href="https://founders.meta-qube.com/ru/apply/">
+  <link rel="alternate" hreflang="x-default" href="https://founders.meta-qube.com/apply/">
+
+  <link rel="icon" href="https://meta-qube.com/favicon.ico" sizes="any">
+  <link rel="icon" href="https://meta-qube.com/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="https://meta-qube.com/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="apple-touch-icon" href="https://meta-qube.com/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .apply-page {
+      position: relative;
+      overflow: hidden;
+      padding-block: 7rem 5rem;
+      min-height: 100vh;
+    }
+
+    .apply-header {
+      text-align: center;
+      max-width: 42rem;
+      margin: 0 auto 3rem;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-bottom: 1.75rem;
+    }
+
+    .back-link:hover { color: var(--text); }
+
+    .apply-header h1 {
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0.75rem 0 0.75rem;
+    }
+
+    .apply-header > p {
+      color: var(--text-muted);
+      font-size: 1.0625rem;
+      margin: 0;
+      line-height: 1.7;
+    }
+
+    .stepper {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      max-width: 52rem;
+      margin: 0 auto 2rem;
+      padding: 0;
+      list-style: none;
+      gap: 0;
+    }
+
+    .stepper-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      position: relative;
+    }
+
+    .stepper-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 0.9375rem;
+      left: calc(50% + 1.125rem);
+      right: calc(-50% + 1.125rem);
+      height: 1px;
+      background: var(--border);
+      transition: background 0.3s;
+    }
+
+    .stepper-step.completed:not(:last-child)::after { background: var(--accent); }
+
+    .step-dot {
+      width: 1.875rem;
+      height: 1.875rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stepper-step.active .step-dot {
+      border-color: var(--accent);
+      background: rgba(120, 201, 30, 0.15);
+      color: var(--accent-bright);
+    }
+
+    .stepper-step.completed .step-dot {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #0c1a00;
+    }
+
+    .step-label {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .stepper-step.active .step-label { color: var(--text); }
+
+    .wizard-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) * 1.5);
+      max-width: 52rem;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    .wizard-step { display: none; padding: 2.5rem; }
+    .wizard-step.active { display: block; }
+    .wizard-step-header { margin-bottom: 2rem; }
+
+    .wizard-step-header h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.5rem;
+    }
+
+    .step-desc { color: var(--text-muted); font-size: 0.9375rem; margin: 0; line-height: 1.6; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .form-group { margin-bottom: 1.5rem; }
+    .form-group:last-child { margin-bottom: 0; }
+
+    .form-label { display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text); }
+    .req { color: var(--accent-bright); margin-left: 0.25rem; }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.75rem 1rem;
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+
+    .form-input::placeholder, .form-textarea::placeholder { color: var(--text-muted); opacity: 0.6; }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+    .form-input.invalid, .form-select.invalid, .form-textarea.invalid { border-color: #ef5350; }
+
+    .form-select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238b93a7' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+      cursor: pointer;
+    }
+    .form-select option { background: var(--bg-elevated); }
+    .form-textarea { resize: vertical; min-height: 5.5rem; }
+    .form-hint { font-size: 0.8125rem; color: var(--text-muted); margin-top: 0.375rem; }
+    .field-error { font-size: 0.8125rem; color: #ef5350; margin-top: 0.375rem; display: none; }
+    .field-error.show { display: block; }
+
+    .option-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .option-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.625rem 1rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      transition: border-color 0.15s, background 0.15s, color 0.15s;
+      user-select: none;
+    }
+
+    .option-label:hover {
+      border-color: rgba(120, 201, 30, 0.4);
+      background: rgba(120, 201, 30, 0.05);
+      color: var(--text);
+    }
+
+    .option-label input[type="radio"], .option-label input[type="checkbox"] {
+      width: 0.9375rem;
+      height: 0.9375rem;
+      accent-color: var(--accent);
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .option-label:has(input:checked) {
+      border-color: var(--accent);
+      background: rgba(120, 201, 30, 0.1);
+      color: var(--text);
+    }
+
+    .option-group.invalid .option-label { border-color: rgba(239, 83, 80, 0.4); }
+
+    .wizard-nav {
+      display: flex;
+      align-items: center;
+      padding: 1.25rem 2.5rem;
+      border-top: 1px solid var(--border);
+      background: var(--bg-elevated);
+      gap: 1rem;
+    }
+
+    .wizard-nav-right { margin-left: auto; }
+    .step-counter { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--text-muted); }
+
+    .summary-grid { display: grid; gap: 0.625rem; margin-bottom: 1.75rem; }
+
+    .summary-item {
+      display: flex;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .summary-key {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--accent-bright);
+      min-width: 9rem;
+      flex-shrink: 0;
+      padding-top: 0.125rem;
+    }
+
+    .summary-val { font-size: 0.875rem; color: var(--text-muted); word-break: break-word; }
+
+    .consent-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.875rem;
+      padding: 1.25rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-top: 1.5rem;
+    }
+
+    .consent-group.invalid { border-color: rgba(239, 83, 80, 0.4); }
+
+    .consent-group input[type="checkbox"] {
+      width: 1.125rem;
+      height: 1.125rem;
+      accent-color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 0.1875rem;
+      cursor: pointer;
+    }
+
+    .consent-group label { font-size: 0.875rem; color: var(--text-muted); cursor: pointer; line-height: 1.55; }
+
+    .hp-field {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    .success-state { display: none; text-align: center; padding: 4rem 2rem; max-width: 40rem; margin: 0 auto; }
+    .success-state.active { display: block; }
+
+    .success-icon {
+      width: 3.75rem;
+      height: 3.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(120, 201, 30, 0.15);
+      border: 1px solid rgba(120, 201, 30, 0.3);
+      border-radius: 50%;
+      margin: 0 auto 1.5rem;
+      color: var(--accent-bright);
+    }
+
+    .success-state h2 {
+      font-size: clamp(1.75rem, 3vw, 2.25rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 1rem;
+    }
+
+    .success-state > p { color: var(--text-muted); font-size: 1rem; margin: 0 0 1.25rem; line-height: 1.7; }
+    .success-ref { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 2rem; }
+
+    .submit-error {
+      display: none;
+      margin-bottom: 1.25rem;
+      padding: 1rem 1.25rem;
+      background: rgba(239, 83, 80, 0.12);
+      border: 1px solid rgba(239, 83, 80, 0.35);
+      border-radius: var(--radius);
+      color: #ffb4b4;
+      font-size: 0.9375rem;
+      line-height: 1.55;
+    }
+
+    .submit-error.show { display: block; }
+
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    @media (max-width: 640px) {
+      .wizard-step { padding: 1.5rem; }
+      .wizard-nav { padding: 1rem 1.5rem; flex-wrap: wrap; }
+      .step-counter { order: -1; width: 100%; }
+      .form-row { grid-template-columns: 1fr; }
+      .step-label { display: none; }
+      .summary-item { flex-direction: column; gap: 0.25rem; }
+      .summary-key { min-width: unset; }
+    }
+  </style>
+</head>
+<body class="audience-founders">
+  <header class="site-header" id="header">
+    <div class="container header-inner">
+      <div class="header-top">
+        <a href="/ua/" class="logo">
+          <img src="https://meta-qube.com/images/metaqube.png" alt="" width="36" height="36">
+          Meta Qube
+        </a>
+        <span class="audience-badge">Для засновників</span>
+        <nav class="lang-switch" aria-label="Мова">
+          <a href="/apply/" class="lang-link" hreflang="en">EN</a>
+          <a href="/ua/apply/" class="lang-link active" hreflang="uk" aria-current="page">UA</a>
+          <a href="/ru/apply/" class="lang-link" hreflang="ru">RU</a>
+        </nav>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Відкрити меню" aria-expanded="false">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="4" y1="7" x2="20" y2="7"/>
+            <line x1="4" y1="12" x2="20" y2="12"/>
+            <line x1="4" y1="17" x2="20" y2="17"/>
+          </svg>
+        </button>
+      </div>
+      <nav class="nav" id="nav">
+        <a href="/ua/#who">Для кого</a>
+        <a href="/ua/#compiler">Компілятор</a>
+        <a href="/ua/#process">Як це працює</a>
+        <a href="/ua/apply/" class="nav-cta">Подати заявку</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="apply-page">
+      <div class="hero-bg" aria-hidden="true">
+        <div class="hero-glow"></div>
+        <div class="hero-grid"></div>
+      </div>
+      <div class="container">
+
+        <header class="apply-header">
+          <a href="/ua/" class="back-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+            </svg>
+            На сайт для засновників
+          </a>
+          <p class="eyebrow">Заявка засновника</p>
+          <h1>Подати заявку до Meta Qube</h1>
+          <p>
+            Пройдіть покроковий майстер. Розкажіть, що ви будуєте, хто є власником,
+            як запускаєте і як заробляєте. Ваші відповіді класифікують стартап
+            і запускають процес компіляції.
+          </p>
+        </header>
+
+        <ol class="stepper" aria-label="Кроки заявки">
+          <li class="stepper-step" id="s0"><span class="step-dot">1</span><span class="step-label">Контакт</span></li>
+          <li class="stepper-step" id="s1"><span class="step-dot">2</span><span class="step-label">Що будуєте</span></li>
+          <li class="stepper-step" id="s2"><span class="step-dot">3</span><span class="step-label">Власність</span></li>
+          <li class="stepper-step" id="s3"><span class="step-dot">4</span><span class="step-label">Домен</span></li>
+          <li class="stepper-step" id="s4"><span class="step-dot">5</span><span class="step-label">Дохід</span></li>
+          <li class="stepper-step" id="s5"><span class="step-dot">6</span><span class="step-label">Огляд</span></li>
+        </ol>
+
+        <div id="wizard-container">
+          <div class="wizard-card">
+
+            <!-- Крок 1: Контакт -->
+            <div class="wizard-step" id="step-0">
+              <div class="wizard-step-header">
+                <h2>Ваш контакт</h2>
+                <p class="step-desc">Ми використаємо ці дані, щоб зв'язатися з вами після розгляду заявки.</p>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="full_name">Повне ім'я <span class="req">*</span></label>
+                  <input type="text" id="full_name" name="full_name" class="form-input" autocomplete="name" placeholder="Ваше повне ім'я">
+                  <div class="field-error" data-err="full_name">Будь ласка, введіть ваше ім'я.</div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="email">Email <span class="req">*</span></label>
+                  <input type="email" id="email" name="email" class="form-input" autocomplete="email" placeholder="you@example.com">
+                  <div class="field-error" data-err="email">Будь ласка, введіть коректну email-адресу.</div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="country">Країна <span class="req">*</span></label>
+                  <input type="text" id="country" name="country" class="form-input" autocomplete="country-name" placeholder="Ваша країна">
+                  <div class="field-error" data-err="country">Будь ласка, введіть вашу країну.</div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="language">Мова спілкування <span class="req">*</span></label>
+                  <select id="language" name="language" class="form-select">
+                    <option value="">Оберіть мову</option>
+                    <option value="English">English</option>
+                    <option value="Ukrainian">Українська</option>
+                    <option value="Russian">Русский</option>
+                  </select>
+                  <div class="field-error" data-err="language">Будь ласка, оберіть мову.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Крок 2: Що будуєте -->
+            <div class="wizard-step" id="step-1">
+              <div class="wizard-step-header">
+                <h2>Що ви будуєте</h2>
+                <p class="step-desc">Оберіть всі відповідні варіанти та опишіть ідею одним реченням.</p>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Тип стартапу <span class="req">*</span></label>
+                <div class="option-group" data-chkgroup="startup_type">
+                  <label class="option-label"><input type="checkbox" name="startup_type" value="Service"> Сервіс</label>
+                  <label class="option-label"><input type="checkbox" name="startup_type" value="Product"> Продукт</label>
+                  <label class="option-label"><input type="checkbox" name="startup_type" value="Platform"> Платформа</label>
+                  <label class="option-label"><input type="checkbox" name="startup_type" value="Marketplace"> Маркетплейс</label>
+                  <label class="option-label"><input type="checkbox" name="startup_type" value="Agency"> Агентство</label>
+                  <label class="option-label"><input type="checkbox" name="startup_type" value="Software"> Програмне забезпечення</label>
+                  <label class="option-label"><input type="checkbox" name="startup_type" value="AI"> AI</label>
+                  <label class="option-label"><input type="checkbox" name="startup_type" value="Other"> Інше</label>
+                </div>
+                <div class="field-error" data-err="startup_type">Будь ласка, оберіть хоча б один тип.</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="pitch">Опис в одному реченні <span class="req">*</span></label>
+                <input type="text" id="pitch" name="pitch" class="form-input" maxlength="140" placeholder="Що ви будуєте, для кого і чому це важливо?">
+                <div class="form-hint">Максимум 140 символів</div>
+                <div class="field-error" data-err="pitch">Будь ласка, опишіть ваш стартап.</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Стадія <span class="req">*</span></label>
+                <div class="option-group" data-radgroup="stage">
+                  <label class="option-label"><input type="radio" name="stage" value="Idea"> Ідея</label>
+                  <label class="option-label"><input type="radio" name="stage" value="MVP"> MVP</label>
+                  <label class="option-label"><input type="radio" name="stage" value="Live"> Запущено</label>
+                </div>
+                <div class="field-error" data-err="stage">Будь ласка, оберіть поточну стадію.</div>
+              </div>
+            </div>
+
+            <!-- Крок 3: Власність -->
+            <div class="wizard-step" id="step-2">
+              <div class="wizard-step-header">
+                <h2>Власність та команда</h2>
+                <p class="step-desc">Розкажіть про структуру команди та технічний рівень.</p>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Структура власності <span class="req">*</span></label>
+                <div class="option-group" data-radgroup="ownership">
+                  <label class="option-label"><input type="radio" name="ownership" value="Solo founder"> Один засновник</label>
+                  <label class="option-label"><input type="radio" name="ownership" value="Co-founders"> Кілька засновників</label>
+                </div>
+                <div class="field-error" data-err="ownership">Будь ласка, оберіть структуру власності.</div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="team_size">Розмір команди <span class="req">*</span></label>
+                  <select id="team_size" name="team_size" class="form-select">
+                    <option value="">Оберіть розмір</option>
+                    <option value="Just me">Тільки я</option>
+                    <option value="2–3 people">2–3 особи</option>
+                    <option value="4–10 people">4–10 осіб</option>
+                    <option value="10+ people">10+ осіб</option>
+                  </select>
+                  <div class="field-error" data-err="team_size">Будь ласка, оберіть розмір команди.</div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Технічний рівень <span class="req">*</span></label>
+                  <div class="option-group" data-radgroup="technical_level">
+                    <label class="option-label"><input type="radio" name="technical_level" value="None"> Відсутній</label>
+                    <label class="option-label"><input type="radio" name="technical_level" value="Partial"> Частковий</label>
+                    <label class="option-label"><input type="radio" name="technical_level" value="Full in-house"> Повний власний</label>
+                  </div>
+                  <div class="field-error" data-err="technical_level">Будь ласка, оберіть технічний рівень.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Крок 4: Домен -->
+            <div class="wizard-step" id="step-3">
+              <div class="wizard-step-header">
+                <h2>Домен та модель запуску</h2>
+                <p class="step-desc">Розкажіть, в якій галузі ви працюєте і як плануєте виходити на ринок.</p>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="domain">Галузь / домен <span class="req">*</span></label>
+                  <input type="text" id="domain" name="domain" class="form-input" placeholder="напр. HealthTech, EdTech, Fintech…">
+                  <div class="field-error" data-err="domain">Будь ласка, введіть вашу галузь або домен.</div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="market">Цільовий ринок / географія <span class="req">*</span></label>
+                  <input type="text" id="market" name="market" class="form-input" placeholder="напр. Україна, Східна Європа, США…">
+                  <div class="field-error" data-err="market">Будь ласка, введіть цільовий ринок.</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Модель запуску <span class="req">*</span></label>
+                <div class="option-group" data-chkgroup="launch_model">
+                  <label class="option-label"><input type="checkbox" name="launch_model" value="B2B"> B2B</label>
+                  <label class="option-label"><input type="checkbox" name="launch_model" value="B2C"> B2C</label>
+                  <label class="option-label"><input type="checkbox" name="launch_model" value="B2B2C"> B2B2C</label>
+                  <label class="option-label"><input type="checkbox" name="launch_model" value="Marketplace"> Маркетплейс</label>
+                  <label class="option-label"><input type="checkbox" name="launch_model" value="Platform"> Платформа</label>
+                  <label class="option-label"><input type="checkbox" name="launch_model" value="D2C"> D2C</label>
+                  <label class="option-label"><input type="checkbox" name="launch_model" value="Other"> Інше</label>
+                </div>
+                <div class="field-error" data-err="launch_model">Будь ласка, оберіть хоча б одну модель.</div>
+              </div>
+            </div>
+
+            <!-- Крок 5: Дохід та операції -->
+            <div class="wizard-step" id="step-4">
+              <div class="wizard-step-header">
+                <h2>Дохід та операції</h2>
+                <p class="step-desc">Оберіть, як ваш стартап заробляє і які операційні напрями вам знадобляться.</p>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Модель доходу <span class="req">*</span></label>
+                <div class="option-group" data-chkgroup="revenue_model">
+                  <label class="option-label"><input type="checkbox" name="revenue_model" value="Subscription"> Підписка</label>
+                  <label class="option-label"><input type="checkbox" name="revenue_model" value="One-time sale"> Разовий продаж</label>
+                  <label class="option-label"><input type="checkbox" name="revenue_model" value="Usage-based"> За використання</label>
+                  <label class="option-label"><input type="checkbox" name="revenue_model" value="Commission"> Комісія</label>
+                  <label class="option-label"><input type="checkbox" name="revenue_model" value="Freemium"> Freemium</label>
+                  <label class="option-label"><input type="checkbox" name="revenue_model" value="Advertising"> Реклама</label>
+                  <label class="option-label"><input type="checkbox" name="revenue_model" value="Other"> Інше</label>
+                </div>
+                <div class="field-error" data-err="revenue_model">Будь ласка, оберіть хоча б одну модель доходу.</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Необхідні операції <span class="form-hint" style="font-weight:400">(необов'язково — оберіть всі потрібні)</span></label>
+                <div class="option-group">
+                  <label class="option-label"><input type="checkbox" name="required_ops" value="Payments"> Платежі</label>
+                  <label class="option-label"><input type="checkbox" name="required_ops" value="CRM"> CRM</label>
+                  <label class="option-label"><input type="checkbox" name="required_ops" value="Customer support"> Підтримка клієнтів</label>
+                  <label class="option-label"><input type="checkbox" name="required_ops" value="Legal"> Юридичні питання</label>
+                  <label class="option-label"><input type="checkbox" name="required_ops" value="Accounting"> Бухгалтерія</label>
+                  <label class="option-label"><input type="checkbox" name="required_ops" value="Marketing automation"> Маркетинг</label>
+                  <label class="option-label"><input type="checkbox" name="required_ops" value="Analytics"> Аналітика</label>
+                  <label class="option-label"><input type="checkbox" name="required_ops" value="Other"> Інше</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Крок 6: Огляд та відправка -->
+            <div class="wizard-step" id="step-5">
+              <div class="wizard-step-header">
+                <h2>Огляд та відправка</h2>
+                <p class="step-desc">Перевірте відповіді, додайте нотатки та надішліть заявку.</p>
+              </div>
+              <div id="submit-error" class="submit-error" role="alert" hidden></div>
+              <div id="summary-grid" class="summary-grid" aria-label="Підсумок заявки"></div>
+              <div class="form-group">
+                <label class="form-label" for="risks">Основні ризики та обмеження</label>
+                <textarea id="risks" name="risks" class="form-textarea" placeholder="Які ключові ризики або тверді обмеження для вашого стартапу?"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="notes">Додаткові нотатки</label>
+                <textarea id="notes" name="notes" class="form-textarea" placeholder="Що ще важливо знати Meta Qube про ваш проєкт?"></textarea>
+              </div>
+              <div class="hp-field" aria-hidden="true">
+                <label for="website">Website</label>
+                <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+              </div>
+              <div class="consent-group" id="consent-group">
+                <input type="checkbox" id="consent" name="consent">
+                <label for="consent">
+                  Я погоджуюся з тим, що надана інформація використовуватиметься Meta Qube для оцінки
+                  моєї заявки та зворотного зв'язку електронною поштою. Я розумію, що це не є
+                  юридично зобов'язальною угодою.
+                </label>
+              </div>
+              <div class="field-error" data-err="consent">Будь ласка, надайте згоду для продовження.</div>
+            </div>
+
+            <!-- Навігація -->
+            <div class="wizard-nav">
+              <button id="btn-back" class="btn btn-secondary" type="button">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+                </svg>
+                Назад
+              </button>
+              <span id="step-counter" class="step-counter">Крок 1 з 6</span>
+              <div class="wizard-nav-right">
+                <button id="btn-next" class="btn btn-primary" type="button">
+                  Далі
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                  </svg>
+                </button>
+                <button id="btn-submit" class="btn btn-primary" type="button" style="display:none">
+                  Надіслати заявку
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div id="success-state" class="success-state" role="status">
+          <div class="success-icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          <p class="eyebrow" style="justify-content:center">Заявку отримано</p>
+          <h2>Ви в черзі</h2>
+          <p>
+            Вашу заявку надіслано. Команда Meta Qube розгляне її та зв'яжеться з вами на
+            <strong id="success-email"></strong> протягом кількох робочих днів.
+          </p>
+          <p class="success-ref">Номер заявки: <code id="success-app-id"></code></p>
+          <a href="/ua/" class="btn btn-secondary">На сайт для засновників</a>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <img src="https://meta-qube.com/images/metaqube.png" alt="" width="24" height="24">
+        <span>&copy; 2026 Meta Qube. Усі права захищено.</span>
+      </div>
+      <div class="footer-links">
+        <a href="https://meta-qube.com/ua/">Головний сайт</a>
+        <a href="https://capital.meta-qube.com/ua/">Для інвесторів</a>
+        <a href="https://platform.meta-qube.com/ua/">Платформа</a>
+        <a href="mailto:timur@metarhia.com">Контакт</a>
+      </div>
+    </div>
+  </footer>
+
+  <iframe name="hidden_submit_frame" hidden title="" aria-hidden="true"></iframe>
+
+  <noscript>
+    <style>.wizard-card,.stepper{display:none}</style>
+    <div style="text-align:center;padding:5rem 2rem;color:#8b93a7">
+      Для роботи майстра необхідний JavaScript.
+      Ви також можете написати нам на <a href="mailto:timur@metarhia.com">timur@metarhia.com</a>.
+    </div>
+  </noscript>
+
+  <script>
+    const header = document.getElementById('header');
+    const menuToggle = document.getElementById('menu-toggle');
+    const nav = document.getElementById('nav');
+
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    menuToggle.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', open);
+    });
+
+    nav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    (function () {
+      const FORM_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLSeYEf1pfkK6K2IvsmApmNxYpZrZag1RMuu1-CL30i68nrUN8g/formResponse';
+
+      const FIELD_MAP = {
+        application_id:  'entry.1088509787',
+        locale:          'entry.174236026',
+        website:         'entry.437911348',
+        full_name:       'entry.1285599013',
+        email:           'entry.1131753446',
+        country:         'entry.152246448',
+        language:        'entry.1440927584',
+        startup_type:    'entry.1610445218',
+        pitch:           'entry.1759769174',
+        stage:           'entry.269781360',
+        ownership:       'entry.1940294147',
+        team_size:       'entry.1746749447',
+        technical_level: 'entry.661015959',
+        domain:          'entry.2059565769',
+        market:          'entry.637769940',
+        launch_model:    'entry.239567357',
+        revenue_model:   'entry.344484645',
+        required_ops:    'entry.1372263966',
+        risks:           'entry.118186484',
+        notes:           'entry.2106291474',
+      };
+
+      const DRAFT_KEY   = 'metaqube-founder-apply';
+      const TOTAL_STEPS = 6;
+
+      const SUMMARY_LABELS = {
+        full_name: "Ім'я", email: 'Email', country: 'Країна', language: 'Мова',
+        startup_type: 'Тип стартапу', pitch: 'Опис', stage: 'Стадія',
+        ownership: 'Власність', team_size: 'Команда', technical_level: 'Тех. рівень',
+        domain: 'Домен', market: 'Ринок', launch_model: 'Модель запуску',
+        revenue_model: 'Модель доходу', required_ops: 'Операції',
+      };
+
+      let currentStep = 0;
+      let data = loadDraft();
+      if (!data.application_id) data.application_id = uuid();
+
+      const stepEls   = Array.from(document.querySelectorAll('.wizard-step'));
+      const stepDots  = Array.from(document.querySelectorAll('.stepper-step'));
+      const btnBack   = document.getElementById('btn-back');
+      const btnNext   = document.getElementById('btn-next');
+      const btnSubmit = document.getElementById('btn-submit');
+      const container = document.getElementById('wizard-container');
+      const successEl = document.getElementById('success-state');
+      const counterEl = document.getElementById('step-counter');
+      const submitError = document.getElementById('submit-error');
+
+      const PLACEHOLDER_RE = /REPLACE|_FORM_ID/i;
+      const SUBMIT_ERROR_MSG = 'Форму ще не підключено до Google Forms, тому заявку не збережено. Завершіть GOOGLE_FORMS_SETUP.md і замініть placeholder URL та entry ID на цій сторінці. Ваші відповіді збережені в браузері — можна надіслати знову після налаштування. Або пишіть на <a href="mailto:timur@metarhia.com">timur@metarhia.com</a>.';
+
+      function uuid() {
+        if (crypto.randomUUID) return crypto.randomUUID();
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+          const r = Math.random() * 16 | 0;
+          return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+        });
+      }
+
+      function loadDraft() {
+        try { return JSON.parse(localStorage.getItem(DRAFT_KEY)) || {}; } catch { return {}; }
+      }
+
+      function saveDraft() {
+        try { localStorage.setItem(DRAFT_KEY, JSON.stringify(data)); } catch {}
+      }
+
+      function clearDraft() {
+        try { localStorage.removeItem(DRAFT_KEY); } catch {}
+      }
+
+      function collectStep(idx) {
+        const step = stepEls[idx];
+        step.querySelectorAll('input:not([type=radio]):not([type=checkbox]), select, textarea').forEach(el => {
+          if (el.name) data[el.name] = el.value.trim();
+        });
+        const radioNames = new Set([...step.querySelectorAll('input[type=radio]')].map(e => e.name));
+        radioNames.forEach(name => {
+          const checked = step.querySelector(`input[type=radio][name="${name}"]:checked`);
+          data[name] = checked ? checked.value : (data[name] || '');
+        });
+        const checkNames = new Set([...step.querySelectorAll('input[type=checkbox]:not(#consent)')].map(e => e.name));
+        checkNames.forEach(name => {
+          data[name] = [...step.querySelectorAll(`input[type=checkbox][name="${name}"]:checked`)].map(e => e.value);
+        });
+        saveDraft();
+      }
+
+      function restoreStep(idx) {
+        const step = stepEls[idx];
+        step.querySelectorAll('input:not([type=radio]):not([type=checkbox]), select, textarea').forEach(el => {
+          if (el.name && data[el.name] !== undefined) el.value = data[el.name];
+        });
+        step.querySelectorAll('input[type=radio]').forEach(el => { el.checked = data[el.name] === el.value; });
+        step.querySelectorAll('input[type=checkbox]:not(#consent)').forEach(el => {
+          el.checked = Array.isArray(data[el.name]) && data[el.name].includes(el.value);
+        });
+      }
+
+      function validateStep(idx) {
+        const step = stepEls[idx];
+        let ok = true;
+        step.querySelectorAll('.field-error.show').forEach(e => e.classList.remove('show'));
+        step.querySelectorAll('.invalid').forEach(e => e.classList.remove('invalid'));
+        step.querySelectorAll('.option-group.invalid').forEach(e => e.classList.remove('invalid'));
+
+        step.querySelectorAll('input:not([type=radio]):not([type=checkbox]):not([name=website]):not([name=consent]), select').forEach(el => {
+          if (!el.value.trim()) {
+            el.classList.add('invalid');
+            const err = step.querySelector(`[data-err="${el.name}"]`);
+            if (err) err.classList.add('show');
+            ok = false;
+          }
+          if (el.type === 'email' && el.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value)) {
+            el.classList.add('invalid');
+            const err = step.querySelector(`[data-err="${el.name}"]`);
+            if (err) err.classList.add('show');
+            ok = false;
+          }
+        });
+
+        step.querySelectorAll('[data-radgroup]').forEach(group => {
+          const name = group.dataset.radgroup;
+          if (!step.querySelector(`input[type=radio][name="${name}"]:checked`)) {
+            group.classList.add('invalid');
+            const err = step.querySelector(`[data-err="${name}"]`);
+            if (err) err.classList.add('show');
+            ok = false;
+          }
+        });
+
+        step.querySelectorAll('[data-chkgroup]').forEach(group => {
+          const name = group.dataset.chkgroup;
+          if (!step.querySelector(`input[type=checkbox][name="${name}"]:checked`)) {
+            group.classList.add('invalid');
+            const err = step.querySelector(`[data-err="${name}"]`);
+            if (err) err.classList.add('show');
+            ok = false;
+          }
+        });
+
+        if (idx === TOTAL_STEPS - 1) {
+          const consent = step.querySelector('#consent');
+          const consentGroup = document.getElementById('consent-group');
+          if (consent && !consent.checked) {
+            if (consentGroup) consentGroup.classList.add('invalid');
+            const err = step.querySelector('[data-err="consent"]');
+            if (err) err.classList.add('show');
+            ok = false;
+          }
+        }
+
+        return ok;
+      }
+
+      function updateStepper() {
+        stepDots.forEach((dot, i) => {
+          dot.classList.toggle('completed', i < currentStep);
+          dot.classList.toggle('active', i === currentStep);
+        });
+        if (counterEl) counterEl.textContent = `Крок ${currentStep + 1} з ${TOTAL_STEPS}`;
+      }
+
+      function buildSummary() {
+        const grid = document.getElementById('summary-grid');
+        if (!grid) return;
+        grid.innerHTML = Object.entries(SUMMARY_LABELS).map(([key, label]) => {
+          const val = data[key];
+          if (!val || (Array.isArray(val) && !val.length)) return '';
+          const display = Array.isArray(val) ? val.join(', ') : val;
+          return `<div class="summary-item"><span class="summary-key">${label}</span><span class="summary-val">${display}</span></div>`;
+        }).join('');
+      }
+
+      function showStep(idx) {
+        stepEls.forEach(s => s.classList.remove('active'));
+        stepEls[idx].classList.add('active');
+        restoreStep(idx);
+        updateStepper();
+        btnBack.style.visibility = idx === 0 ? 'hidden' : 'visible';
+        const isLast = idx === TOTAL_STEPS - 1;
+        btnNext.style.display   = isLast ? 'none' : 'inline-flex';
+        btnSubmit.style.display = isLast ? 'inline-flex' : 'none';
+        if (isLast) buildSummary();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function isFormConfigured() {
+        if (!FORM_ACTION || PLACEHOLDER_RE.test(FORM_ACTION)) return false;
+        return Object.values(FIELD_MAP).every((id) => id && !PLACEHOLDER_RE.test(id));
+      }
+
+      function hideSubmitError() {
+        if (!submitError) return;
+        submitError.hidden = true;
+        submitError.classList.remove('show');
+        submitError.innerHTML = '';
+      }
+
+      function showSubmitError(html) {
+        if (!submitError) return;
+        submitError.innerHTML = html;
+        submitError.hidden = false;
+        submitError.classList.add('show');
+        submitError.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      function submitToGoogleForm() {
+        return new Promise((resolve, reject) => {
+          const frame = document.querySelector('iframe[name="hidden_submit_frame"]');
+          if (!frame) { reject(new Error('missing iframe')); return; }
+          const timeout = window.setTimeout(() => {
+            frame.removeEventListener('load', onLoad);
+            reject(new Error('timeout'));
+          }, 15000);
+          function onLoad() {
+            window.clearTimeout(timeout);
+            frame.removeEventListener('load', onLoad);
+            resolve();
+          }
+          frame.addEventListener('load', onLoad);
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.action = FORM_ACTION;
+          form.target = 'hidden_submit_frame';
+          function addInput(name, value) {
+            const input = document.createElement('input');
+            input.type = 'hidden'; input.name = name; input.value = value;
+            form.appendChild(input);
+          }
+          addInput(FIELD_MAP.application_id, data.application_id || '');
+          addInput(FIELD_MAP.locale, document.documentElement.lang || 'uk');
+          addInput(FIELD_MAP.website, data.website || '');
+          Object.entries(FIELD_MAP).forEach(([key, entryId]) => {
+            if (['application_id', 'locale', 'website'].includes(key)) return;
+            const val = data[key];
+            if (val == null || val === '') return;
+            if (Array.isArray(val)) addInput(entryId, val.join(', '));
+            else addInput(entryId, String(val));
+          });
+          document.body.appendChild(form);
+          form.submit();
+          form.remove();
+        });
+      }
+
+      function showSuccess() {
+        container.style.display = 'none';
+        document.querySelector('.stepper').style.display = 'none';
+        successEl.classList.add('active');
+        const emailEl = document.getElementById('success-email');
+        const appIdEl = document.getElementById('success-app-id');
+        if (emailEl) emailEl.textContent = data.email || '';
+        if (appIdEl) appIdEl.textContent = data.application_id || '';
+      }
+
+      btnBack.addEventListener('click', () => { collectStep(currentStep); currentStep--; showStep(currentStep); });
+      btnNext.addEventListener('click', () => { collectStep(currentStep); if (!validateStep(currentStep)) return; currentStep++; showStep(currentStep); });
+      btnSubmit.addEventListener('click', async () => {
+        collectStep(currentStep);
+        hideSubmitError();
+        if (!validateStep(currentStep)) return;
+        if (!isFormConfigured()) {
+          showSubmitError(SUBMIT_ERROR_MSG);
+          return;
+        }
+        btnSubmit.disabled = true;
+        const prevLabel = btnSubmit.innerHTML;
+        btnSubmit.textContent = 'Надсилання…';
+        try {
+          await submitToGoogleForm();
+          clearDraft();
+          showSuccess();
+        } catch {
+          showSubmitError('Не вдалося надіслати заявку. Перевірте з’єднання та спробуйте знову, або пишіть на <a href="mailto:timur@metarhia.com">timur@metarhia.com</a>.');
+          btnSubmit.disabled = false;
+          btnSubmit.innerHTML = prevLabel;
+        }
+      });
+
+      showStep(0);
+    })();
+  </script>
+</body>
+</html>

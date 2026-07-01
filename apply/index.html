@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Apply to Meta Qube — complete the founder startup wizard to classify your idea and join the structured compilation pipeline.">
+  <meta name="theme-color" content="#78C91E">
+  <title>Apply to Meta Qube — Founder Application</title>
+
+  <link rel="alternate" hreflang="en" href="https://founders.meta-qube.com/apply/">
+  <link rel="alternate" hreflang="uk" href="https://founders.meta-qube.com/ua/apply/">
+  <link rel="alternate" hreflang="ru" href="https://founders.meta-qube.com/ru/apply/">
+  <link rel="alternate" hreflang="x-default" href="https://founders.meta-qube.com/apply/">
+
+  <link rel="icon" href="https://meta-qube.com/favicon.ico" sizes="any">
+  <link rel="icon" href="https://meta-qube.com/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="https://meta-qube.com/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="apple-touch-icon" href="https://meta-qube.com/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .apply-page {
+      position: relative;
+      overflow: hidden;
+      padding-block: 7rem 5rem;
+      min-height: 100vh;
+    }
+
+    .apply-header {
+      text-align: center;
+      max-width: 42rem;
+      margin: 0 auto 3rem;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-bottom: 1.75rem;
+    }
+
+    .back-link:hover { color: var(--text); }
+
+    .apply-header h1 {
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0.75rem 0 0.75rem;
+    }
+
+    .apply-header > p {
+      color: var(--text-muted);
+      font-size: 1.0625rem;
+      margin: 0;
+      line-height: 1.7;
+    }
+
+    /* Stepper */
+    .stepper {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      max-width: 52rem;
+      margin: 0 auto 2rem;
+      padding: 0;
+      list-style: none;
+      gap: 0;
+    }
+
+    .stepper-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      position: relative;
+    }
+
+    .stepper-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 0.9375rem;
+      left: calc(50% + 1.125rem);
+      right: calc(-50% + 1.125rem);
+      height: 1px;
+      background: var(--border);
+      transition: background 0.3s;
+    }
+
+    .stepper-step.completed:not(:last-child)::after {
+      background: var(--accent);
+    }
+
+    .step-dot {
+      width: 1.875rem;
+      height: 1.875rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stepper-step.active .step-dot {
+      border-color: var(--accent);
+      background: rgba(120, 201, 30, 0.15);
+      color: var(--accent-bright);
+    }
+
+    .stepper-step.completed .step-dot {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #0c1a00;
+    }
+
+    .step-label {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .stepper-step.active .step-label { color: var(--text); }
+
+    /* Wizard card */
+    .wizard-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) * 1.5);
+      max-width: 52rem;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    .wizard-step {
+      display: none;
+      padding: 2.5rem;
+    }
+
+    .wizard-step.active { display: block; }
+
+    .wizard-step-header { margin-bottom: 2rem; }
+
+    .wizard-step-header h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.5rem;
+    }
+
+    .step-desc {
+      color: var(--text-muted);
+      font-size: 0.9375rem;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* Form fields */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .form-group { margin-bottom: 1.5rem; }
+    .form-group:last-child { margin-bottom: 0; }
+
+    .form-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .req { color: var(--accent-bright); margin-left: 0.25rem; }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.75rem 1rem;
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder { color: var(--text-muted); opacity: 0.6; }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .form-input.invalid,
+    .form-select.invalid,
+    .form-textarea.invalid { border-color: #ef5350; }
+
+    .form-select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238b93a7' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+      cursor: pointer;
+    }
+
+    .form-select option { background: var(--bg-elevated); }
+
+    .form-textarea { resize: vertical; min-height: 5.5rem; }
+
+    .form-hint {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      margin-top: 0.375rem;
+    }
+
+    .field-error {
+      font-size: 0.8125rem;
+      color: #ef5350;
+      margin-top: 0.375rem;
+      display: none;
+    }
+
+    .field-error.show { display: block; }
+
+    /* Option pills (radio + checkbox) */
+    .option-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .option-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.625rem 1rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      transition: border-color 0.15s, background 0.15s, color 0.15s;
+      user-select: none;
+    }
+
+    .option-label:hover {
+      border-color: rgba(120, 201, 30, 0.4);
+      background: rgba(120, 201, 30, 0.05);
+      color: var(--text);
+    }
+
+    .option-label input[type="radio"],
+    .option-label input[type="checkbox"] {
+      width: 0.9375rem;
+      height: 0.9375rem;
+      accent-color: var(--accent);
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .option-label:has(input:checked) {
+      border-color: var(--accent);
+      background: rgba(120, 201, 30, 0.1);
+      color: var(--text);
+    }
+
+    .option-group.invalid .option-label { border-color: rgba(239, 83, 80, 0.4); }
+
+    /* Wizard navigation */
+    .wizard-nav {
+      display: flex;
+      align-items: center;
+      padding: 1.25rem 2.5rem;
+      border-top: 1px solid var(--border);
+      background: var(--bg-elevated);
+      gap: 1rem;
+    }
+
+    .wizard-nav-right { margin-left: auto; }
+
+    .step-counter {
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+    }
+
+    /* Summary (step 6) */
+    .summary-grid {
+      display: grid;
+      gap: 0.625rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .summary-item {
+      display: flex;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .summary-key {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--accent-bright);
+      min-width: 9rem;
+      flex-shrink: 0;
+      padding-top: 0.125rem;
+    }
+
+    .summary-val {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      word-break: break-word;
+    }
+
+    /* Consent */
+    .consent-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.875rem;
+      padding: 1.25rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-top: 1.5rem;
+    }
+
+    .consent-group.invalid { border-color: rgba(239, 83, 80, 0.4); }
+
+    .consent-group input[type="checkbox"] {
+      width: 1.125rem;
+      height: 1.125rem;
+      accent-color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 0.1875rem;
+      cursor: pointer;
+    }
+
+    .consent-group label {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      line-height: 1.55;
+    }
+
+    /* Honeypot — visually hidden but not display:none (bots fill it) */
+    .hp-field {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    /* Success state */
+    .success-state {
+      display: none;
+      text-align: center;
+      padding: 4rem 2rem;
+      max-width: 40rem;
+      margin: 0 auto;
+    }
+
+    .success-state.active { display: block; }
+
+    .success-icon {
+      width: 3.75rem;
+      height: 3.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(120, 201, 30, 0.15);
+      border: 1px solid rgba(120, 201, 30, 0.3);
+      border-radius: 50%;
+      margin: 0 auto 1.5rem;
+      color: var(--accent-bright);
+    }
+
+    .success-state h2 {
+      font-size: clamp(1.75rem, 3vw, 2.25rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 1rem;
+    }
+
+    .success-state > p {
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin: 0 0 1.25rem;
+      line-height: 1.7;
+    }
+
+    .success-ref {
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+
+    .submit-error {
+      display: none;
+      margin-bottom: 1.25rem;
+      padding: 1rem 1.25rem;
+      background: rgba(239, 83, 80, 0.12);
+      border: 1px solid rgba(239, 83, 80, 0.35);
+      border-radius: var(--radius);
+      color: #ffb4b4;
+      font-size: 0.9375rem;
+      line-height: 1.55;
+    }
+
+    .submit-error.show { display: block; }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .wizard-step { padding: 1.5rem; }
+      .wizard-nav { padding: 1rem 1.5rem; flex-wrap: wrap; }
+      .step-counter { order: -1; width: 100%; }
+      .form-row { grid-template-columns: 1fr; }
+      .step-label { display: none; }
+      .summary-item { flex-direction: column; gap: 0.25rem; }
+      .summary-key { min-width: unset; }
+    }
+  </style>
+</head>
+<body class="audience-founders">
+  <header class="site-header" id="header">
+    <div class="container header-inner">
+      <div class="header-top">
+        <a href="/" class="logo">
+          <img src="https://meta-qube.com/images/metaqube.png" alt="" width="36" height="36">
+          Meta Qube
+        </a>
+        <span class="audience-badge">For founders</span>
+        <nav class="lang-switch" aria-label="Language">
+          <a href="/apply/" class="lang-link active" hreflang="en" aria-current="page">EN</a>
+          <a href="/ua/apply/" class="lang-link" hreflang="uk">UA</a>
+          <a href="/ru/apply/" class="lang-link" hreflang="ru">RU</a>
+        </nav>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="4" y1="7" x2="20" y2="7"/>
+            <line x1="4" y1="12" x2="20" y2="12"/>
+            <line x1="4" y1="17" x2="20" y2="17"/>
+          </svg>
+        </button>
+      </div>
+      <nav class="nav" id="nav">
+        <a href="/#who">Who it's for</a>
+        <a href="/#compiler">Compiler</a>
+        <a href="/#process">How it works</a>
+        <a href="/apply/" class="nav-cta">Apply</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="apply-page">
+      <div class="hero-bg" aria-hidden="true">
+        <div class="hero-glow"></div>
+        <div class="hero-grid"></div>
+      </div>
+      <div class="container">
+
+        <header class="apply-header">
+          <a href="/" class="back-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+            </svg>
+            Back to founders site
+          </a>
+          <p class="eyebrow">Founder application</p>
+          <h1>Apply to Meta Qube</h1>
+          <p>
+            Complete the startup wizard. Tell us what you're building, who owns it,
+            how it launches, and how it earns. Your answers classify your startup
+            and start the compilation process.
+          </p>
+        </header>
+
+        <!-- Progress stepper -->
+        <ol class="stepper" aria-label="Application steps">
+          <li class="stepper-step" id="s0"><span class="step-dot">1</span><span class="step-label">Contact</span></li>
+          <li class="stepper-step" id="s1"><span class="step-dot">2</span><span class="step-label">What you build</span></li>
+          <li class="stepper-step" id="s2"><span class="step-dot">3</span><span class="step-label">Ownership</span></li>
+          <li class="stepper-step" id="s3"><span class="step-dot">4</span><span class="step-label">Domain</span></li>
+          <li class="stepper-step" id="s4"><span class="step-dot">5</span><span class="step-label">Revenue</span></li>
+          <li class="stepper-step" id="s5"><span class="step-dot">6</span><span class="step-label">Review</span></li>
+        </ol>
+
+        <!-- Wizard -->
+        <div id="wizard-container">
+          <div class="wizard-card">
+
+            <!-- Step 1: Contact -->
+            <div class="wizard-step" id="step-0">
+              <div class="wizard-step-header">
+                <h2>Your contact</h2>
+                <p class="step-desc">We'll use this to follow up on your application and keep you informed about next steps.</p>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="full_name">Full name <span class="req">*</span></label>
+                  <input type="text" id="full_name" name="full_name" class="form-input" autocomplete="name" placeholder="Your full name">
+                  <div class="field-error" data-err="full_name">Please enter your full name.</div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="email">Email <span class="req">*</span></label>
+                  <input type="email" id="email" name="email" class="form-input" autocomplete="email" placeholder="you@example.com">
+                  <div class="field-error" data-err="email">Please enter a valid email address.</div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="country">Country <span class="req">*</span></label>
+                  <input type="text" id="country" name="country" class="form-input" autocomplete="country-name" placeholder="Your country">
+                  <div class="field-error" data-err="country">Please enter your country.</div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="language">Preferred language <span class="req">*</span></label>
+                  <select id="language" name="language" class="form-select">
+                    <option value="">Select language</option>
+                    <option value="English">English</option>
+                    <option value="Ukrainian">Ukrainian</option>
+                    <option value="Russian">Russian</option>
+                  </select>
+                  <div class="field-error" data-err="language">Please select your preferred language.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2: What you build -->
+            <div class="wizard-step" id="step-1">
+              <div class="wizard-step-header">
+                <h2>What you're building</h2>
+                <p class="step-desc">Choose all that apply and describe your idea in one sentence.</p>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Startup type <span class="req">*</span></label>
+                <div class="option-group" data-chkgroup="startup_type">
+                  <label class="option-label"><input type="checkbox" name="startup_type" value="Service"> Service</label>
+                  <label class="option-label"><input type="checkbox" name="startup_type" value="Product"> Product</label>
+                  <label class="option-label"><input type="checkbox" name="startup_type" value="Platform"> Platform</label>
+                  <label class="option-label"><input type="checkbox" name="startup_type" value="Marketplace"> Marketplace</label>
+                  <label class="option-label"><input type="checkbox" name="startup_type" value="Agency"> Agency</label>
+                  <label class="option-label"><input type="checkbox" name="startup_type" value="Software"> Software</label>
+                  <label class="option-label"><input type="checkbox" name="startup_type" value="AI"> AI</label>
+                  <label class="option-label"><input type="checkbox" name="startup_type" value="Other"> Other</label>
+                </div>
+                <div class="field-error" data-err="startup_type">Please select at least one startup type.</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="pitch">One-line pitch <span class="req">*</span></label>
+                <input type="text" id="pitch" name="pitch" class="form-input" maxlength="140" placeholder="What are you building, for whom, and why it matters?">
+                <div class="form-hint">Max 140 characters</div>
+                <div class="field-error" data-err="pitch">Please describe your startup in one line.</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Stage <span class="req">*</span></label>
+                <div class="option-group" data-radgroup="stage">
+                  <label class="option-label"><input type="radio" name="stage" value="Idea"> Idea</label>
+                  <label class="option-label"><input type="radio" name="stage" value="MVP"> MVP</label>
+                  <label class="option-label"><input type="radio" name="stage" value="Live"> Live</label>
+                </div>
+                <div class="field-error" data-err="stage">Please select your current stage.</div>
+              </div>
+            </div>
+
+            <!-- Step 3: Ownership -->
+            <div class="wizard-step" id="step-2">
+              <div class="wizard-step-header">
+                <h2>Ownership &amp; team</h2>
+                <p class="step-desc">Tell us about your team structure and technical capability.</p>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Ownership structure <span class="req">*</span></label>
+                <div class="option-group" data-radgroup="ownership">
+                  <label class="option-label"><input type="radio" name="ownership" value="Solo founder"> Solo founder</label>
+                  <label class="option-label"><input type="radio" name="ownership" value="Co-founders"> Co-founders (2+)</label>
+                </div>
+                <div class="field-error" data-err="ownership">Please select ownership structure.</div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="team_size">Team size <span class="req">*</span></label>
+                  <select id="team_size" name="team_size" class="form-select">
+                    <option value="">Select size</option>
+                    <option value="Just me">Just me</option>
+                    <option value="2–3 people">2–3 people</option>
+                    <option value="4–10 people">4–10 people</option>
+                    <option value="10+ people">10+ people</option>
+                  </select>
+                  <div class="field-error" data-err="team_size">Please select your team size.</div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Technical capability <span class="req">*</span></label>
+                  <div class="option-group" data-radgroup="technical_level">
+                    <label class="option-label"><input type="radio" name="technical_level" value="None"> None</label>
+                    <label class="option-label"><input type="radio" name="technical_level" value="Partial"> Partial</label>
+                    <label class="option-label"><input type="radio" name="technical_level" value="Full in-house"> Full in-house</label>
+                  </div>
+                  <div class="field-error" data-err="technical_level">Please select technical capability.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 4: Domain & launch -->
+            <div class="wizard-step" id="step-3">
+              <div class="wizard-step-header">
+                <h2>Domain &amp; launch model</h2>
+                <p class="step-desc">Tell us which industry you operate in and how you plan to reach your market.</p>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="domain">Industry / domain <span class="req">*</span></label>
+                  <input type="text" id="domain" name="domain" class="form-input" placeholder="e.g. HealthTech, EdTech, Fintech, Dev tools…">
+                  <div class="field-error" data-err="domain">Please enter your industry or domain.</div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="market">Target market / geography <span class="req">*</span></label>
+                  <input type="text" id="market" name="market" class="form-input" placeholder="e.g. Eastern Europe, US, Global…">
+                  <div class="field-error" data-err="market">Please enter your target market.</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Launch model <span class="req">*</span></label>
+                <div class="option-group" data-chkgroup="launch_model">
+                  <label class="option-label"><input type="checkbox" name="launch_model" value="B2B"> B2B</label>
+                  <label class="option-label"><input type="checkbox" name="launch_model" value="B2C"> B2C</label>
+                  <label class="option-label"><input type="checkbox" name="launch_model" value="B2B2C"> B2B2C</label>
+                  <label class="option-label"><input type="checkbox" name="launch_model" value="Marketplace"> Marketplace</label>
+                  <label class="option-label"><input type="checkbox" name="launch_model" value="Platform"> Platform</label>
+                  <label class="option-label"><input type="checkbox" name="launch_model" value="D2C"> D2C</label>
+                  <label class="option-label"><input type="checkbox" name="launch_model" value="Other"> Other</label>
+                </div>
+                <div class="field-error" data-err="launch_model">Please select at least one launch model.</div>
+              </div>
+            </div>
+
+            <!-- Step 5: Revenue & ops -->
+            <div class="wizard-step" id="step-4">
+              <div class="wizard-step-header">
+                <h2>Revenue &amp; operations</h2>
+                <p class="step-desc">Choose how your startup earns and which operational areas you'll need to run.</p>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Revenue model <span class="req">*</span></label>
+                <div class="option-group" data-chkgroup="revenue_model">
+                  <label class="option-label"><input type="checkbox" name="revenue_model" value="Subscription"> Subscription</label>
+                  <label class="option-label"><input type="checkbox" name="revenue_model" value="One-time sale"> One-time sale</label>
+                  <label class="option-label"><input type="checkbox" name="revenue_model" value="Usage-based"> Usage-based</label>
+                  <label class="option-label"><input type="checkbox" name="revenue_model" value="Commission"> Commission</label>
+                  <label class="option-label"><input type="checkbox" name="revenue_model" value="Freemium"> Freemium</label>
+                  <label class="option-label"><input type="checkbox" name="revenue_model" value="Advertising"> Advertising</label>
+                  <label class="option-label"><input type="checkbox" name="revenue_model" value="Other"> Other</label>
+                </div>
+                <div class="field-error" data-err="revenue_model">Please select at least one revenue model.</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Required operations <span class="form-hint" style="font-weight:400">(optional — select all that apply)</span></label>
+                <div class="option-group">
+                  <label class="option-label"><input type="checkbox" name="required_ops" value="Payments"> Payments</label>
+                  <label class="option-label"><input type="checkbox" name="required_ops" value="CRM"> CRM</label>
+                  <label class="option-label"><input type="checkbox" name="required_ops" value="Customer support"> Customer support</label>
+                  <label class="option-label"><input type="checkbox" name="required_ops" value="Legal"> Legal</label>
+                  <label class="option-label"><input type="checkbox" name="required_ops" value="Accounting"> Accounting</label>
+                  <label class="option-label"><input type="checkbox" name="required_ops" value="Marketing automation"> Marketing automation</label>
+                  <label class="option-label"><input type="checkbox" name="required_ops" value="Analytics"> Analytics</label>
+                  <label class="option-label"><input type="checkbox" name="required_ops" value="Other"> Other</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 6: Review & submit -->
+            <div class="wizard-step" id="step-5">
+              <div class="wizard-step-header">
+                <h2>Review &amp; submit</h2>
+                <p class="step-desc">Review your answers, add any notes, then submit your application.</p>
+              </div>
+              <div id="submit-error" class="submit-error" role="alert" hidden></div>
+              <div id="summary-grid" class="summary-grid" aria-label="Application summary"></div>
+              <div class="form-group">
+                <label class="form-label" for="risks">Main risks &amp; constraints</label>
+                <textarea id="risks" name="risks" class="form-textarea" placeholder="What are the key risks or hard constraints for your startup?"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="notes">Additional notes</label>
+                <textarea id="notes" name="notes" class="form-textarea" placeholder="Anything else you'd like Meta Qube to know about your project?"></textarea>
+              </div>
+              <!-- Honeypot — hidden from real users -->
+              <div class="hp-field" aria-hidden="true">
+                <label for="website">Website</label>
+                <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+              </div>
+              <div class="consent-group" id="consent-group">
+                <input type="checkbox" id="consent" name="consent">
+                <label for="consent">
+                  I agree that the information I provide will be used by Meta Qube to evaluate
+                  my application and follow up by email. I understand this is not a binding agreement.
+                </label>
+              </div>
+              <div class="field-error" data-err="consent">Please confirm your consent to proceed.</div>
+            </div>
+
+            <!-- Wizard navigation -->
+            <div class="wizard-nav">
+              <button id="btn-back" class="btn btn-secondary" type="button">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+                </svg>
+                Back
+              </button>
+              <span id="step-counter" class="step-counter">Step 1 of 6</span>
+              <div class="wizard-nav-right">
+                <button id="btn-next" class="btn btn-primary" type="button">
+                  Continue
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                  </svg>
+                </button>
+                <button id="btn-submit" class="btn btn-primary" type="button" style="display:none">
+                  Submit application
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+          </div><!-- /.wizard-card -->
+        </div><!-- /#wizard-container -->
+
+        <!-- Success state -->
+        <div id="success-state" class="success-state" role="status">
+          <div class="success-icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          <p class="eyebrow" style="justify-content:center">Application received</p>
+          <h2>You're in the queue</h2>
+          <p>
+            Your startup application has been submitted. The Meta Qube team will review
+            it and reach out to <strong id="success-email"></strong> within a few business days.
+          </p>
+          <p class="success-ref">Reference: <code id="success-app-id"></code></p>
+          <a href="/" class="btn btn-secondary">Back to founders site</a>
+        </div>
+
+      </div><!-- /.container -->
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <img src="https://meta-qube.com/images/metaqube.png" alt="" width="24" height="24">
+        <span>&copy; 2026 Meta Qube. All rights reserved.</span>
+      </div>
+      <div class="footer-links">
+        <a href="https://meta-qube.com/">Main site</a>
+        <a href="https://capital.meta-qube.com/">For investors</a>
+        <a href="https://platform.meta-qube.com/">Platform</a>
+        <a href="mailto:timur@metarhia.com">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Hidden iframe target for Google Forms POST -->
+  <iframe name="hidden_submit_frame" hidden title="" aria-hidden="true"></iframe>
+
+  <noscript>
+    <style>.wizard-card,.stepper{display:none}</style>
+    <div style="text-align:center;padding:5rem 2rem;color:#8b93a7">
+      JavaScript is required for this wizard.
+      You can also reach us directly at <a href="mailto:timur@metarhia.com">timur@metarhia.com</a>.
+    </div>
+  </noscript>
+
+  <script>
+    /* ── Header scroll + mobile nav ── */
+    const header = document.getElementById('header');
+    const menuToggle = document.getElementById('menu-toggle');
+    const nav = document.getElementById('nav');
+
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    menuToggle.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', open);
+    });
+
+    nav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    /* ── Wizard ── */
+    (function () {
+      // =================================================================
+      // SETUP REQUIRED — replace placeholder values with real Google Form
+      // entry IDs after completing GOOGLE_FORMS_SETUP.md.
+      // =================================================================
+      const FORM_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLSeYEf1pfkK6K2IvsmApmNxYpZrZag1RMuu1-CL30i68nrUN8g/formResponse';
+
+      const FIELD_MAP = {
+        application_id:  'entry.1088509787',
+        locale:          'entry.174236026',
+        website:         'entry.437911348',
+        full_name:       'entry.1285599013',
+        email:           'entry.1131753446',
+        country:         'entry.152246448',
+        language:        'entry.1440927584',
+        startup_type:    'entry.1610445218',
+        pitch:           'entry.1759769174',
+        stage:           'entry.269781360',
+        ownership:       'entry.1940294147',
+        team_size:       'entry.1746749447',
+        technical_level: 'entry.661015959',
+        domain:          'entry.2059565769',
+        market:          'entry.637769940',
+        launch_model:    'entry.239567357',
+        revenue_model:   'entry.344484645',
+        required_ops:    'entry.1372263966',
+        risks:           'entry.118186484',
+        notes:           'entry.2106291474',
+      };
+
+      const DRAFT_KEY   = 'metaqube-founder-apply';
+      const TOTAL_STEPS = 6;
+
+      const SUMMARY_LABELS = {
+        full_name:       'Name',
+        email:           'Email',
+        country:         'Country',
+        language:        'Language',
+        startup_type:    'Startup type',
+        pitch:           'Pitch',
+        stage:           'Stage',
+        ownership:       'Ownership',
+        team_size:       'Team size',
+        technical_level: 'Technical level',
+        domain:          'Domain',
+        market:          'Target market',
+        launch_model:    'Launch model',
+        revenue_model:   'Revenue model',
+        required_ops:    'Operations',
+      };
+
+      /* State */
+      let currentStep = 0;
+      let data = loadDraft();
+      if (!data.application_id) data.application_id = uuid();
+
+      /* DOM */
+      const stepEls     = Array.from(document.querySelectorAll('.wizard-step'));
+      const stepDots    = Array.from(document.querySelectorAll('.stepper-step'));
+      const btnBack     = document.getElementById('btn-back');
+      const btnNext     = document.getElementById('btn-next');
+      const btnSubmit   = document.getElementById('btn-submit');
+      const container   = document.getElementById('wizard-container');
+      const successEl   = document.getElementById('success-state');
+      const counterEl   = document.getElementById('step-counter');
+      const submitError = document.getElementById('submit-error');
+
+      const PLACEHOLDER_RE = /REPLACE|_FORM_ID/i;
+      const SUBMIT_ERROR_MSG = 'This form is not connected to Google Forms yet, so your application was not saved. Complete GOOGLE_FORMS_SETUP.md and replace the placeholder form URL and entry IDs in this page. Your answers are still saved in this browser — you can submit again after setup. Or email <a href="mailto:timur@metarhia.com">timur@metarhia.com</a>.';
+
+      /* Helpers */
+      function uuid() {
+        if (crypto.randomUUID) return crypto.randomUUID();
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+          const r = Math.random() * 16 | 0;
+          return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+        });
+      }
+
+      function loadDraft() {
+        try { return JSON.parse(localStorage.getItem(DRAFT_KEY)) || {}; }
+        catch { return {}; }
+      }
+
+      function saveDraft() {
+        try { localStorage.setItem(DRAFT_KEY, JSON.stringify(data)); }
+        catch {}
+      }
+
+      function clearDraft() {
+        try { localStorage.removeItem(DRAFT_KEY); }
+        catch {}
+      }
+
+      /* Collect all field values from a step into data{} */
+      function collectStep(idx) {
+        const step = stepEls[idx];
+
+        // Text / email / select / textarea
+        step.querySelectorAll('input:not([type=radio]):not([type=checkbox]), select, textarea').forEach(el => {
+          if (el.name) data[el.name] = el.value.trim();
+        });
+
+        // Radio groups
+        const radioNames = new Set([...step.querySelectorAll('input[type=radio]')].map(e => e.name));
+        radioNames.forEach(name => {
+          const checked = step.querySelector(`input[type=radio][name="${name}"]:checked`);
+          data[name] = checked ? checked.value : (data[name] || '');
+        });
+
+        // Checkbox groups
+        const checkNames = new Set([...step.querySelectorAll('input[type=checkbox]:not(#consent)')].map(e => e.name));
+        checkNames.forEach(name => {
+          data[name] = [...step.querySelectorAll(`input[type=checkbox][name="${name}"]:checked`)].map(e => e.value);
+        });
+
+        saveDraft();
+      }
+
+      /* Restore saved values into a step's fields */
+      function restoreStep(idx) {
+        const step = stepEls[idx];
+
+        step.querySelectorAll('input:not([type=radio]):not([type=checkbox]), select, textarea').forEach(el => {
+          if (el.name && data[el.name] !== undefined) el.value = data[el.name];
+        });
+
+        step.querySelectorAll('input[type=radio]').forEach(el => {
+          el.checked = data[el.name] === el.value;
+        });
+
+        step.querySelectorAll('input[type=checkbox]:not(#consent)').forEach(el => {
+          el.checked = Array.isArray(data[el.name]) && data[el.name].includes(el.value);
+        });
+      }
+
+      /* Validate required fields in a step; returns true if valid */
+      function validateStep(idx) {
+        const step = stepEls[idx];
+        let ok = true;
+
+        // Clear previous errors
+        step.querySelectorAll('.field-error.show').forEach(e => e.classList.remove('show'));
+        step.querySelectorAll('.invalid').forEach(e => e.classList.remove('invalid'));
+        step.querySelectorAll('.option-group.invalid').forEach(e => e.classList.remove('invalid'));
+
+        // Text / email / select
+        step.querySelectorAll('input:not([type=radio]):not([type=checkbox]):not([name=website]):not([name=consent]), select').forEach(el => {
+          if (!el.value.trim()) {
+            el.classList.add('invalid');
+            const err = step.querySelector(`[data-err="${el.name}"]`);
+            if (err) err.classList.add('show');
+            ok = false;
+          }
+          // Extra email check
+          if (el.type === 'email' && el.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value)) {
+            el.classList.add('invalid');
+            const err = step.querySelector(`[data-err="${el.name}"]`);
+            if (err) err.classList.add('show');
+            ok = false;
+          }
+        });
+
+        // Required radio groups
+        step.querySelectorAll('[data-radgroup]').forEach(group => {
+          const name = group.dataset.radgroup;
+          if (!step.querySelector(`input[type=radio][name="${name}"]:checked`)) {
+            group.classList.add('invalid');
+            const err = step.querySelector(`[data-err="${name}"]`);
+            if (err) err.classList.add('show');
+            ok = false;
+          }
+        });
+
+        // Required checkbox groups
+        step.querySelectorAll('[data-chkgroup]').forEach(group => {
+          const name = group.dataset.chkgroup;
+          if (!step.querySelector(`input[type=checkbox][name="${name}"]:checked`)) {
+            group.classList.add('invalid');
+            const err = step.querySelector(`[data-err="${name}"]`);
+            if (err) err.classList.add('show');
+            ok = false;
+          }
+        });
+
+        // Consent (last step only)
+        if (idx === TOTAL_STEPS - 1) {
+          const consent = step.querySelector('#consent');
+          const consentGroup = document.getElementById('consent-group');
+          if (consent && !consent.checked) {
+            if (consentGroup) consentGroup.classList.add('invalid');
+            const err = step.querySelector('[data-err="consent"]');
+            if (err) err.classList.add('show');
+            ok = false;
+          }
+        }
+
+        return ok;
+      }
+
+      /* Update stepper visual state */
+      function updateStepper() {
+        stepDots.forEach((dot, i) => {
+          dot.classList.toggle('completed', i < currentStep);
+          dot.classList.toggle('active', i === currentStep);
+        });
+        if (counterEl) counterEl.textContent = `Step ${currentStep + 1} of ${TOTAL_STEPS}`;
+      }
+
+      /* Build summary for step 6 */
+      function buildSummary() {
+        const grid = document.getElementById('summary-grid');
+        if (!grid) return;
+        grid.innerHTML = Object.entries(SUMMARY_LABELS).map(([key, label]) => {
+          const val = data[key];
+          if (!val || (Array.isArray(val) && !val.length)) return '';
+          const display = Array.isArray(val) ? val.join(', ') : val;
+          return `<div class="summary-item">
+            <span class="summary-key">${label}</span>
+            <span class="summary-val">${display}</span>
+          </div>`;
+        }).join('');
+      }
+
+      /* Show a specific step */
+      function showStep(idx) {
+        stepEls.forEach(s => s.classList.remove('active'));
+        stepEls[idx].classList.add('active');
+        restoreStep(idx);
+        updateStepper();
+
+        btnBack.style.visibility = idx === 0 ? 'hidden' : 'visible';
+        const isLast = idx === TOTAL_STEPS - 1;
+        btnNext.style.display   = isLast ? 'none' : 'inline-flex';
+        btnSubmit.style.display = isLast ? 'inline-flex' : 'none';
+
+        if (isLast) buildSummary();
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function isFormConfigured() {
+        if (!FORM_ACTION || PLACEHOLDER_RE.test(FORM_ACTION)) return false;
+        return Object.values(FIELD_MAP).every((id) => id && !PLACEHOLDER_RE.test(id));
+      }
+
+      function hideSubmitError() {
+        if (!submitError) return;
+        submitError.hidden = true;
+        submitError.classList.remove('show');
+        submitError.innerHTML = '';
+      }
+
+      function showSubmitError(html) {
+        if (!submitError) return;
+        submitError.innerHTML = html;
+        submitError.hidden = false;
+        submitError.classList.add('show');
+        submitError.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      /* Submit to Google Form via hidden iframe; resolves when iframe loads */
+      function submitToGoogleForm() {
+        return new Promise((resolve, reject) => {
+          const frame = document.querySelector('iframe[name="hidden_submit_frame"]');
+          if (!frame) {
+            reject(new Error('missing iframe'));
+            return;
+          }
+
+          const timeout = window.setTimeout(() => {
+            frame.removeEventListener('load', onLoad);
+            reject(new Error('timeout'));
+          }, 15000);
+
+          function onLoad() {
+            window.clearTimeout(timeout);
+            frame.removeEventListener('load', onLoad);
+            resolve();
+          }
+
+          frame.addEventListener('load', onLoad);
+
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.action = FORM_ACTION;
+          form.target = 'hidden_submit_frame';
+
+          function addInput(name, value) {
+            const input = document.createElement('input');
+            input.type  = 'hidden';
+            input.name  = name;
+            input.value = value;
+            form.appendChild(input);
+          }
+
+          addInput(FIELD_MAP.application_id, data.application_id || '');
+          addInput(FIELD_MAP.locale, document.documentElement.lang || 'en');
+          addInput(FIELD_MAP.website, data.website || '');
+
+          Object.entries(FIELD_MAP).forEach(([key, entryId]) => {
+            if (['application_id', 'locale', 'website'].includes(key)) return;
+            const val = data[key];
+            if (val == null || val === '') return;
+            if (Array.isArray(val)) addInput(entryId, val.join(', '));
+            else addInput(entryId, String(val));
+          });
+
+          document.body.appendChild(form);
+          form.submit();
+          form.remove();
+        });
+      }
+
+      /* Show success screen */
+      function showSuccess() {
+        container.style.display = 'none';
+        document.querySelector('.stepper').style.display = 'none';
+        successEl.classList.add('active');
+
+        const emailEl = document.getElementById('success-email');
+        const appIdEl = document.getElementById('success-app-id');
+        if (emailEl) emailEl.textContent = data.email || '';
+        if (appIdEl) appIdEl.textContent = data.application_id || '';
+      }
+
+      /* Button handlers */
+      btnBack.addEventListener('click', () => {
+        collectStep(currentStep);
+        currentStep--;
+        showStep(currentStep);
+      });
+
+      btnNext.addEventListener('click', () => {
+        collectStep(currentStep);
+        if (!validateStep(currentStep)) return;
+        currentStep++;
+        showStep(currentStep);
+      });
+
+      btnSubmit.addEventListener('click', async () => {
+        collectStep(currentStep);
+        hideSubmitError();
+        if (!validateStep(currentStep)) return;
+
+        if (!isFormConfigured()) {
+          showSubmitError(SUBMIT_ERROR_MSG);
+          return;
+        }
+
+        btnSubmit.disabled = true;
+        const prevLabel = btnSubmit.innerHTML;
+        btnSubmit.textContent = 'Submitting…';
+
+        try {
+          await submitToGoogleForm();
+          clearDraft();
+          showSuccess();
+        } catch {
+          showSubmitError('Submission failed. Please check your connection and try again, or email <a href="mailto:timur@metarhia.com">timur@metarhia.com</a>.');
+          btnSubmit.disabled = false;
+          btnSubmit.innerHTML = prevLabel;
+        }
+      });
+
+      /* Init */
+      showStep(0);
+    })();
+  </script>
+</body>
+</html>
