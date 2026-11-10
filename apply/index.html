@@ -445,6 +445,26 @@
 
     .submit-error.show { display: block; }
 
+    .incubator-notice {
+      max-width: 52rem;
+      margin: 1.75rem auto 0;
+      padding: 1.25rem 1.5rem;
+      background: rgba(245, 200, 66, 0.08);
+      border: 1px solid rgba(245, 200, 66, 0.28);
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      text-align: left;
+    }
+
+    .incubator-notice strong { color: var(--text); }
+
+    .incubator-notice ul {
+      margin: 0.75rem 0 0;
+      padding-left: 1.25rem;
+    }
+
     .btn:disabled {
       opacity: 0.6;
       cursor: not-allowed;
@@ -516,6 +536,17 @@
             how it launches, and how it earns. Your answers classify your startup
             and start the compilation process.
           </p>
+          <aside class="incubator-notice" role="note">
+            <strong>Not a classic incubator.</strong> Meta Qube finances projects
+            <strong>ready to scale</strong> — with a working product, early traction,
+            and a clear growth plan. In the AI era, building the first version is cheap;
+            capital is for scaling distribution, operations, and market reach.
+            <ul>
+              <li><strong>Ready to scale (MVP/Live):</strong> capital preparation and investor intros may be available case by case.</li>
+              <li><strong>Still at idea stage:</strong> open-source tooling, instructions, free templates,
+                free lectures, and entrepreneur school — but <strong>no direct funding</strong>.</li>
+            </ul>
+          </aside>
         </header>
 
         <!-- Progress stepper -->
@@ -602,6 +633,7 @@
                   <label class="option-label"><input type="radio" name="stage" value="MVP"> MVP</label>
                   <label class="option-label"><input type="radio" name="stage" value="Live"> Live</label>
                 </div>
+                <div class="form-hint">Idea-stage projects are not eligible for scale funding. MVP or Live with traction may qualify.</div>
                 <div class="field-error" data-err="stage">Please select your current stage.</div>
               </div>
             </div>
@@ -736,7 +768,9 @@
                 <input type="checkbox" id="consent" name="consent">
                 <label for="consent">
                   I agree that the information I provide will be used by Meta Qube to evaluate
-                  my application and follow up by email. I understand this is not a binding agreement.
+                  my application and follow up by email. I understand this is not a binding agreement
+                  and that Meta Qube does not guarantee funding. Idea-stage projects receive tooling
+                  and education only — direct funding applies only to projects ready to scale.
                 </label>
               </div>
               <div class="field-error" data-err="consent">Please confirm your consent to proceed.</div>
@@ -801,6 +835,7 @@
         <a href="https://meta-qube.com/">Main site</a>
         <a href="https://capital.meta-qube.com/">For investors</a>
         <a href="https://platform.meta-qube.com/">Platform</a>
+        <a href="https://care.meta-qube.com/">Engineering services</a>
         <a href="mailto:timur@metarhia.com">Contact</a>
       </div>
     </div>

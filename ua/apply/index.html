@@ -352,6 +352,26 @@
 
     .submit-error.show { display: block; }
 
+    .incubator-notice {
+      max-width: 52rem;
+      margin: 1.75rem auto 0;
+      padding: 1.25rem 1.5rem;
+      background: rgba(245, 200, 66, 0.08);
+      border: 1px solid rgba(245, 200, 66, 0.28);
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      text-align: left;
+    }
+
+    .incubator-notice strong { color: var(--text); }
+
+    .incubator-notice ul {
+      margin: 0.75rem 0 0;
+      padding-left: 1.25rem;
+    }
+
     .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
     @media (max-width: 640px) {
@@ -418,6 +438,17 @@
             як запускаєте і як заробляєте. Ваші відповіді класифікують стартап
             і запускають процес компіляції.
           </p>
+          <aside class="incubator-notice" role="note">
+            <strong>Це не класичний інкубатор.</strong> Meta Qube фінансує проєкти,
+            <strong>готові до масштабування</strong> — з робочим продуктом, ранньою
+            тракцією та чітким планом зростання. В еру ШІ створити першу версію дешево;
+            капітал потрібен для масштабування дистрибуції, операцій і виходу на ринок.
+            <ul>
+              <li><strong>Готові до масштабу (MVP/Запущено):</strong> підготовка до капіталу та інтро інвесторам можливі case by case.</li>
+              <li><strong>Ще на стадії ідеї:</strong> open-source інструменти, інструкції, безкоштовні шаблони,
+                лекції та школа підприємця — але <strong>без прямого фінансування</strong>.</li>
+            </ul>
+          </aside>
         </header>
 
         <ol class="stepper" aria-label="Кроки заявки">
@@ -502,6 +533,7 @@
                   <label class="option-label"><input type="radio" name="stage" value="MVP"> MVP</label>
                   <label class="option-label"><input type="radio" name="stage" value="Live"> Запущено</label>
                 </div>
+                <div class="form-hint">Проєкти на стадії ідеї не можуть претендувати на фінансування масштабу. MVP або запущений продукт з тракцією можуть підходити.</div>
                 <div class="field-error" data-err="stage">Будь ласка, оберіть поточну стадію.</div>
               </div>
             </div>
@@ -636,7 +668,8 @@
                 <label for="consent">
                   Я погоджуюся з тим, що надана інформація використовуватиметься Meta Qube для оцінки
                   моєї заявки та зворотного зв'язку електронною поштою. Я розумію, що це не є
-                  юридично зобов'язальною угодою.
+                  юридично зобов'язальною угодою і що Meta Qube не гарантує фінансування. Проєкти
+                  на стадії ідеї отримують лише інструменти та освіту — пряме фінансування лише для проєктів, готових до масштабу.
                 </label>
               </div>
               <div class="field-error" data-err="consent">Будь ласка, надайте згоду для продовження.</div>
@@ -700,6 +733,7 @@
         <a href="https://meta-qube.com/ua/">Головний сайт</a>
         <a href="https://capital.meta-qube.com/ua/">Для інвесторів</a>
         <a href="https://platform.meta-qube.com/ua/">Платформа</a>
+        <a href="https://care.meta-qube.com/ua/">Інженерні послуги</a>
         <a href="mailto:timur@metarhia.com">Контакт</a>
       </div>
     </div>
